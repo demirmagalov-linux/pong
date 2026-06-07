@@ -27,10 +27,12 @@ def update():
     ball.x += ball.speed_x * time.dt
     ball.y += ball.speed_y * time.dt
     paddle_right.y += (ball.y - paddle_right.y) * 6.5 * time.dt
-    if held_keys['w']:
-        paddle_left.y += 0.05
-    elif held_keys['s']:
-        paddle_left.y -= 0.05    
+    if paddle_left.y <= 4:
+        if held_keys['w']:
+            paddle_left.y += 0.05
+    if paddle_left.y >= -4:
+        if held_keys['s']:
+            paddle_left.y -= 0.05    
 
     if ball.y > 4 or ball.y < -4:
         ball.speed_y = -ball.speed_y
@@ -41,17 +43,7 @@ def update():
     elif ball.x <= -7 and paddle_left.y - 0.5 < ball.y < paddle_left.y + 0.5:
         ball.speed_x = abs(ball.speed_x) + 0.5
         ball.x = -6.7
-    if ball.x > 8:
-        left_score = left_score + 1
-        if left_score == 5:
-            Text(text='RIGHT SIDE WINS', position=(0, 0.2), origin=(0, 0))
-            ball.speed_x = 0
-            ball.speed_y = 0
-            game_over = True
-        ball.x = 0
-        ball.y = 0
-        ball.speed_x = random.choice([-1, 1]) * 5
-        ball.speed_y = random.choice([-1, 1]) * 3
+
     if ball.x < -8:
         right_score = right_score + 1
         if right_score == 5:
